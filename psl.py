@@ -115,9 +115,8 @@ class Psl:
 
 if __name__ == '__main__':
     
-    import sys
     # Replicate BLAT output from web
-    for line in open(sys.argv[1]):
+    for line in open('line.psl'):
         p = Psl(line)
         print p.qname, p.score(), p.qstart+1, p.qend, p.qsize, \
             "%.1f" % p.calcPercentIdentity(), p.tname, p.strand, \
