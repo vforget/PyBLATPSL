@@ -114,7 +114,6 @@ class Psl:
     
 
 if __name__ == '__main__':
-    
     # Replicate BLAT output from web
     for line in open('line.psl'):
         p = Psl(line)
