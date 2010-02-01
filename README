@@ -6,4 +6,4 @@ Usage:
 python psl.py line.psl
 
 Output should contain same values as using BLAT, http://genome.ucsc.edu/cgi-bin/hgBlat, 
-to align line.fasta against the Mar. 2006 build.
+to align line.fasta against the Mar. 2006 build of the human genome.
