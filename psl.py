@@ -3,10 +3,11 @@
 """ PSL - PSL format from the BLAT program """
 
 # Created by Vince Forgetta, Jan. 2010.
+# Forked by Kevin Ha, Feb 2010.
 
 import math
 
-class Psl:
+class Psl(object):
     ''' Class to represent PSL output from BLAT.
     Provides basic methods such as score() and calcPercentIdentity().
     Argument: String in PSL format
@@ -21,13 +22,6 @@ class Psl:
             tnuminsert, tbaseinsert, strand, qname, qsize, qstart, qend, \
             tname, tsize, tstart, tend, blockcount, blocksizes, qstarts, \
             tstarts = fields[0:21]
-        
-        # if pslx format
-        self.qblockseqs = None
-        self.tblockseqs = None
-        if num_fields == 23:
-            self.qblockseqs = fields[21].split(',')[0:-1]
-            self.tblockseqs = fields[22].split(',')[0:-1]
         
         self.matches = int(matches)
         self.mismatches = int(mismatches)
@@ -112,12 +106,28 @@ class Psl:
         Adapted from http://genome.ucsc.edu/FAQ/FAQblat#blat4 '''
         return 100.0 - self.__calcMilliBad(True) * 0.1
     
+class Pslx(Psl):
+    '''Parser for Pslx format. Inherits from Psl'''
 
+    def __init__(self, s):
+        super(Pslx, self).__init__(s)
+        
+        # split and tokenize input
+        fields = s.strip().split()
+        num_fields = len(fields)
+
+        # if pslx format
+        self.qblockseqs = None
+        self.tblockseqs = None
+        if num_fields == 23:
+            self.qblockseqs = fields[21].split(',')[0:-1]
+            self.tblockseqs = fields[22].split(',')[0:-1]
+       
 if __name__ == '__main__':
     # Replicate BLAT output from web
-    for line in open('line.psl'):
-        p = Psl(line)
+    for line in open('line.pslx'):
+        p = Pslx(line)
         print p.qname, p.score(), p.qstart+1, p.qend, p.qsize, \
             "%.1f" % p.calcPercentIdentity(), p.tname, p.strand, \
-            p.tstart+1, p.tend, p.tspan()        
+            p.tstart+1, p.tend, p.tspan(), p.qblockseqs, p.tblockseqs        
     

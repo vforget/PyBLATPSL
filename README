@@ -1,18 +1,22 @@
-PyBLATPSL - A Python module for the PSL format from the 
-            BLAT alignment program
+PyBLATPSL - A Python module for the PSL and PSLX format 
+            from the BLAT alignment program
 
 - Usage -
 
 As a script:
 
 python psl.py line.psl
+
+or
+
+python psl.py line.pslx
     
 As a module:
 
-import psl
+from psl import psl
 # Replicate BLAT output from web
 for line in open("line.psl"):
-    p = psl.Psl(line)
+    p = Psl(line)
     print p.qname, p.score(), p.qstart+1, p.qend, p.qsize, \
         "%.1f" % p.calcPercentIdentity(), p.tname, p.strand, \
         p.tstart+1, p.tend, p.tspan()        
